@@ -1,0 +1,162 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Dokumentasi API Test Eigen",
+    "version": "1.0.0",
+    "title": "Dokumentasi API Test Eigen",
+    "contact": {
+      "name": "Github Project",
+      "url": "https://github.com/maruf25"
+    }
+  },
+  "tags": [
+    {
+      "name": "Transaction",
+      "description": "Transaction API"
+    },
+    {
+      "name": "Books",
+      "description": "Books API"
+    },
+    {
+      "name": "Members",
+      "description": "Members API"
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/borrow": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary": "Borrow Book",
+        "description": "Borrow Book",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "form input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/borrow"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Borrow book"
+          },
+          "403": {
+            "description": "Forbidden becase member borrow more than 2 book, book borrowed by other member, member penalized"
+          },
+          "404": {
+            "description": "Member not found / Book not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/return/{transactionId}": {
+      "put": {
+        "tags": ["Transaction"],
+        "summary": "Return Book",
+        "description": "Return Book",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "description": "ID of the transaction to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "form input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/return"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Return book"
+          },
+          "403": {
+            "description": "Book can't return because member doesn't valid"
+          },
+          "404": {
+            "description": "Book not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/existingbooks": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get All Existing Books",
+        "description": "Get All Existing Books",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Get All Existing Books"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/members": {
+      "get": {
+        "tags": ["Members"],
+        "summary": "Get All Members",
+        "description": "Get All Members",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Get All Members"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "borrow": {
+      "type": "object",
+      "properties": {
+        "codeMember": {
+          "type": "string",
+          "example": "M003"
+        },
+        "codeBook": {
+          "type": "string",
+          "example": "JK-45"
+        }
+      }
+    },
+    "return": {
+      "type": "object",
+      "properties": {
+        "codeMember": {
+          "type": "string",
+          "example": "M003"
+        },
+        "codeBook": {
+          "type": "string",
+          "example": "JK-45"
+        }
+      }
+    }
+  }
+}
